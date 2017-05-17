@@ -57,6 +57,7 @@ class Student < ApplicationRecord
 
 	def self.newsamename
 		Student.select("firstname, count(firstname) as quantity").group(:firstname).having("quantity > 1")
+
 	end
 
 	def self.longlastname
