@@ -5,23 +5,3 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
-100.times do
-	
-firstname = Faker::Name.first_name
-lastname = Faker::Name.last_name
-age = Faker::Number.between(25, 50)
-grade = Faker::Number.between(1, 5)
-gender = Faker::Number.between(0, 1)
-plays_sports = Faker::Boolean.boolean 
-
-Student.create(
-	firstname: firstname,
-	lastname: lastname,
-	age: age,
-	grade: grade,
-	gender: gender,
-	plays_sports: plays_sports
-)
-
-end

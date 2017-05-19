@@ -17,50 +17,55 @@ class Student < ApplicationRecord
 		"female": 0
 	}
 
-	def self.gendercall(gender)
-		if (gender == 0)
-			puts "Female"
+	scope :female,       -> {where(gender: "female")}
+	scope :male,         -> {where(gender: "male")}
+	scope :plays_sports, -> {where(plays_sports: true)}
+	scope :grade,        -> {where(grade: "A")}
+	scope :davida,       -> {where(firstname: "David")}
 
-			Student.where(gender:0).each do |s|
-			puts "#{s.firstname} #{s.lastname}, #{s.age}"			
-			end
-		else
-			puts "Male"
-			Student.where(gender:1).each do |s|
-			puts "#{s.firstname} #{s.lastname}, #{s.age}"			
-			end
-		end
-	
+	class << self
+
+	def special
+		puts Student.male.grade.plays_sports
 	end
 
-	def self.gradesort
-	gradeunique = Student.select(:grade).distinct
-		gradeunique.each do |s|
-			puts "#{s.grade} = #{Student.where(grade:s.grade).count} students"
-		end
+	def gendercall(gender)
+			puts gender
+			Student.where(gender: gender).each do |s|
+			puts "#{s.firstname} #{s.lastname}, #{s.age}"
+			end	
 	end
 
-	def self.avggrade
-	genderunique = Student.select(:gender).distinct
+	def gradesort
+		puts "#{Student.group(:grade).count} students"
+	end
+
+	def avggrade
+		genderunique = Student.select(:gender).distinct
 		genderunique.each do |s|
 			puts "#{s.gender} = average #{Student.where(gender:s.gender).average(:grade)}"
 		end
 	end
 
-	def self.newavggrade
+	def newavggrade
 		Student.group(:gender).average(:grade)
 	end
 
-	def self.samename
-		Student.select(:first,:firstname).group(:first,:firstname).having("count(*) > 1")
+	def samename
+		Student.select(:firstname, :lastname).group(:firstname).having("count(*) > 1")
 	end
 
-	def self.newsamename
+	def newsamename
 		Student.select("firstname, count(firstname) as quantity").group(:firstname).having("quantity > 1")
 
 	end
 
-	def self.longlastname
+	def newnewsamename
+		Student.where(firstname: Student.select("firstname").group(:firstname).having("count(firstname)  > 1"))
+		
+	end
+
+	def longlastname
 		lastnamearray = Student.select(:lastname).pluck(:lastname)
 		lastnamearray.each do |s|
 			if (s.length > 7)
@@ -69,5 +74,5 @@ class Student < ApplicationRecord
 		end
 	end
 
-
+	end
 end

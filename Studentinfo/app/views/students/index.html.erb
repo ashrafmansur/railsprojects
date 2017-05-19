@@ -1,0 +1,13 @@
+<h1>Students</h1>
+
+<% @students.each do |s| %>
+<p>
+<%= "#{s.firstname} #{s.lastname} #{s.age}" %>
+<%= link_to "View", student_path(s) %>	
+</p>
+
+<% end %>
+
+<p>
+	<%= @students.special %>
+</p>
